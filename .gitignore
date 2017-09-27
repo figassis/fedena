@@ -2,3 +2,5 @@ config/database.yml
 Gemfile.lock
 public/*
 vendor/cache/*
+log/*
+tmp/*
