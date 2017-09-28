@@ -15,10 +15,11 @@ sudo apt-get install -y git-core curl libssl-dev libreadline-dev libyaml-dev lib
 sudo apt-get install -y libgdbm-dev libncurses5-dev automake libtool bison libffi-dev wkhtmltopdf imagemagick libmagickwand-dev
 sudo apt install -y gnupg2
 
-gpg2 --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
-curl -L https://get.rvm.io | bash -s stable
-source /home/$USER/.rvm/scripts/rvm
-echo "source /home/$USER/.rvm/scripts/rvm" >> ~/.bashrc
+sudo chown -R $SUDO_USER:$SUDO_USER /home/$SUDO_USER
+sudo -H -u $SUDO_USER bash -c 'gpg2 --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3'
+sudo -H -u $SUDO_USER bash -c 'curl -L https://get.rvm.io | bash -s stable'
+source /home/$SUDO_USER/.rvm/scripts/rvm
+echo "source /home/$SUDO_USER/.rvm/scripts/rvm" >> /home/$SUDO_USER/.bashrc
 rvm install 1.8.7
 rvm use 1.8.7 --default
 sudo apt install -y ruby-bundler ri ruby-dev bundler
@@ -37,7 +38,7 @@ mysql -u root -p$mysql_password -e "SET global sql_mode=(SELECT REPLACE(@@sql_mo
  gem install rails -v 2.3.5 --no-rdoc --no-ri
 
 #Install the remaining gems
-gem uninstall -aIx -i /home/$USER/.rvm/gems/ruby-1.8.7-head@global rake
+gem uninstall -aIx -i /home/$SUDO_USER/.rvm/gems/ruby-1.8.7-head@global rake
 gem install rake -v 0.8.7
 gem install declarative_authorization -v 0.5.1
 gem install i18n -v 0.4.2
@@ -60,10 +61,10 @@ cp config/tasks.example config/tasks
 sed -i $tempfile 's|DB_PASS|'$mysql_password'|g' config/database.yml
 sed -i $tempfile 's|mysql_password|'$mysql_password'|g' config/backup.ini
 sed -i $tempfile 's|mydomain|'$domain'|g' config/backup.ini
-sed -i $tempfile 's|backup_user|'$USER'|g' config/backup.ini
+sed -i $tempfile 's|backup_user|'$SUDO_USER'|g' config/backup.ini
 sed -i $tempfile 's|admin_email|webmaster@nellcorp.com|g' config/backup.ini
 sed -i $tempfile 's|domain|'$domain'|g' config/tasks
-sed -i $tempfile 's|backup_user|'$USER'|g' config/tasks
+sed -i $tempfile 's|backup_user|'$SUDO_USER'|g' config/tasks
 
 #Generate GPG key and export passphrase
 echo $gpg_pass > config/gpg_pass.txt

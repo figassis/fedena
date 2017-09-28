@@ -1,4 +1,6 @@
 config/database.yml
+config/company_details.yml
+config/gpg_pass.txt
 config/*.ini
 config/tasks
 Gemfile.lock
