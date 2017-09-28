@@ -1,0 +1,16 @@
+DBTYPE="mysql"
+DBROOT="root"
+DBROOT_PASS="mysql_password"
+HOST="localhost"
+PORT="3306"
+DOMAIN="mydomain"
+
+#NGINX
+NGINX_DIR="/etc/nginx"
+
+# Set up some variables for logging
+LOGFILE="/var/log/duplicity/backup.log"
+DAILYLOGFILE="/var/log/duplicity/backup.daily.log"
+FULLBACKLOGFILE="/var/log/duplicity/backup.full.log"
+MAILADDR="admin_email"
+BACKUP_USER="backup_user"
