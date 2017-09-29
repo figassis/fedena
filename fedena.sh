@@ -21,12 +21,12 @@ gem update --system 1.3.7
 
 #Install Fedena
 if [ $# -lt 1 ]; then
-	bundle install
-	rake db:create
-	bundle exec rake fedena:plugins:install_all
-else
 	rake db:create
 	rake db:migrate
 	rake fedena:plugins:install_all
 	script/server -d
+else
+	bundle install
+	rake db:create
+	bundle exec rake fedena:plugins:install_all
 fi
