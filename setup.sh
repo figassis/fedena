@@ -74,7 +74,7 @@ echo $gpg_pass > config/gpg_pass.txt
 #Open Firewall
 sudo ufw allow 3000
 
-sudo -u $SUDO_USER "sh fedena.sh $mode"
+sudo -u $SUDO_USER sh fedena.sh $mode
 
 if [ "$mode" == "deploy" ]; then
     sudo cp config/nginx.conf /etc/nginx/nginx.conf
