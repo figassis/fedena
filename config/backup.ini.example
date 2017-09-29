@@ -3,10 +3,14 @@ DBROOT="root"
 DBROOT_PASS="mysql_password"
 HOST="localhost"
 PORT="3306"
+DATABASE="fedena"
 DOMAIN="mydomain"
 
-#NGINX
+
+
+#Directories
 NGINX_DIR="/etc/nginx"
+FEDENA_DIR="fedena_directory"
 
 # Set up some variables for logging
 LOGFILE="/var/log/duplicity/backup.log"
@@ -14,3 +18,8 @@ DAILYLOGFILE="/var/log/duplicity/backup.daily.log"
 FULLBACKLOGFILE="/var/log/duplicity/backup.full.log"
 MAILADDR="admin_email"
 BACKUP_USER="backup_user"
+
+#AWS Details
+AWS_ACCESS_KEY_ID="AMAZON_KEY_ID"
+AWS_SECRET_ACCESS_KEY="AMAZON_KEY"
+AWS_BUCKET="AMAZON_BUCKET"

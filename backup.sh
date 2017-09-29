@@ -1,13 +1,13 @@
 #!/bin/bash
 exit;
 
-source local/backup.ini
-source local/aws.ini
+source config/backup.ini
+source config/aws.ini
 
 # Export some ENV variables so you don't have to type anything
 export AWS_ACCESS_KEY_ID
 export AWS_SECRET_ACCESS_KEY
-export PASSPHRASE=`cat local/password.txt`
+export PASSPHRASE=`cat config/password.txt`
 #export GPG_PW
 
 # The S3 destination followed by bucket name
@@ -22,9 +22,7 @@ rm -rf ~/mysql_backup
 mkdir ~/mysql_backup
 dbdir=~/mysql_backup
 
-mysqldump --lock-tables -u $DBROOT -p$DBROOT_PASS $MODOBOA_DATABASE > ~/mysql_backup/$MODOBOA_DATABASE.sql
-mysqldump --lock-tables -u $DBROOT -p$DBROOT_PASS $SPAMASSASSINDB > ~/mysql_backup/$SPAMASSASSINDB.sql
-mysqldump --lock-tables -u $DBROOT -p$DBROOT_PASS $AMAVISDB > ~/mysql_backup/$AMAVISDB.sql
+mysqldump --lock-tables -u $DBROOT -p$DBROOT_PASS $DATABASE > ~/mysql_backup/$DATABASE.sql
 
 #ls ~/mysql_backup
 #exit
@@ -77,15 +75,8 @@ if [ $is_running -eq 0 ]; then
         $FULL \
         --allow-source-mismatch \
         --include=$dbdir \
-        --include=$MODOBOA_DIR \
+        --include=$FEDENA_DIR \
         --include=$NGINX_DIR \
-        --include=$RAZOR_DIR \
-        --include=$POSTFIX \
-        --include=$DOVECOT_DIR \
-        --include=$SPAMASSASSIN_DIR \
-        --include=/home/$BACKUP_USER/admin \
-        --include=/home/$BACKUP_USER/config \
-        --include=/home/$BACKUP_USER/modoboa-setup \
         --exclude=/** \
         --s3-use-rrs \
         $SOURCE $DEST >> $DAILYLOGFILE 2>&1
