@@ -1,13 +1,12 @@
 #!/bin/bash
-exit;
+#exit;
 
 source config/backup.ini
-source config/aws.ini
 
 # Export some ENV variables so you don't have to type anything
 export AWS_ACCESS_KEY_ID
 export AWS_SECRET_ACCESS_KEY
-export PASSPHRASE=`cat config/password.txt`
+export PASSPHRASE=`cat config/gpg_pass.txt`
 #export GPG_PW
 
 # The S3 destination followed by bucket name
@@ -23,6 +22,7 @@ mkdir ~/mysql_backup
 dbdir=~/mysql_backup
 
 mysqldump --lock-tables -u $DBROOT -p$DBROOT_PASS $DATABASE > ~/mysql_backup/$DATABASE.sql
+
 
 #ls ~/mysql_backup
 #exit

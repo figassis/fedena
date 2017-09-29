@@ -20,6 +20,10 @@ sudo apt-get install -y build-essential python-pip python-rrdtool python-mysqldb
 sudo apt-get install -y git-core curl libssl-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3 libxslt1-dev libcurl4-openssl-dev python-software-properties
 sudo apt-get install -y libgdbm-dev libncurses5-dev automake libtool bison libffi-dev wkhtmltopdf imagemagick libmagickwand-dev
 
+sudo debconf-set-selections <<< "postfix postfix/mailname string $domain"
+sudo debconf-set-selections <<< "postfix postfix/main_mailer_type string 'Internet Site'"
+sudo apt-get install -y mailutils
+
 sudo apt install -y gnupg2 dirmngr ruby-bundler ri ruby-dev bundler
 
 ##Production Setup
@@ -62,7 +66,7 @@ sed -i $tempfile 's|admin_email|webmaster@nellcorp.com|g' config/backup.ini
 sed -i $tempfile 's|fedena_directory|'`pwd`'|g' config/backup.ini
 sed -i $tempfile 's|domain|'$domain'|g' config/tasks
 sed -i $tempfile 's|backup_user|'$SUDO_USER'|g' config/tasks
-#cp config/tasks /etc/cron.d/maintenance
+cp config/tasks /etc/cron.d/maintenance
 
 #Generate GPG key and export passphrase
 echo $gpg_pass > config/gpg_pass.txt
