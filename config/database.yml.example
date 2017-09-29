@@ -1,18 +1,18 @@
 development:
       host: localhost
       adapter: mysql
-      database: fedena
+      database: fedena_dev
       port: 3306
       username: root
-      password: DEV_PASS
+      password: DB_PASS
 
 test: &test
       host: localhost
       adapter: mysql
-      database: fedena
+      database: fedena_test
       port: 3306
       username: root
-      password: TEST_PASS
+      password: DB_PASS
 
 production:
       host: localhost
@@ -20,6 +20,6 @@ production:
       database: fedena
       port: 3306
       username: root
-      password: PROD_PASS
+      password: DB_PASS
 cucumber:
   <<: *test
