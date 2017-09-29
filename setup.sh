@@ -1,16 +1,10 @@
 #!/bin/bash
-if [ $# -lt 1 ]; then
-    echo Usage: $0 domain [production]
+if [ $# -ne 1 ]; then
+    echo Usage: $0 domain
     exit 1
 fi
 
 domain=$1
-mode=""
-
-if [ $# -eq 2 ]; then
-    mode=deploy
-fi
-
 
 #Install Python and clone mobodoa installer
 sudo apt-add-repository -y ppa:duplicity-team/ppa
@@ -73,13 +67,3 @@ echo $gpg_pass > config/gpg_pass.txt
 
 #Open Firewall
 sudo ufw allow 3000
-mydir=`pwd`
-sudo su - $SUDO_USER -c "cd $mydir && ./fedena.sh $mode"
-
-if [ "$mode" == "deploy" ]; then
-    sudo cp config/nginx.conf /etc/nginx/nginx.conf
-	sudo service nginx restart
-	sudo /usr/bin/passenger-config validate-install
-	sudo cp config/sites.enabled /etc/nginx/sites-enabled/$domain
-	sudo /usr/sbin/passenger-memory-stats
-fi

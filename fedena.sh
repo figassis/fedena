@@ -1,4 +1,10 @@
 #!/bin/bash
+if [ $# -ne 1 ]; then
+    echo Usage: $0 'dev|prod'
+    exit 1
+fi
+
+mode=$1
 
 gpg2 --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
 curl -L https://get.rvm.io | bash -s stable
@@ -20,12 +26,21 @@ gem install mongrel
 gem update --system 1.3.7
 
 #Install Fedena
-if [ $# -lt 1 ]; then
+if [ "$mode" == "dev" ]; then
 	rake db:create
 	rake db:migrate
 	rake fedena:plugins:install_all
 	script/server -d
-else
+fi
+
+if [ "$mode" == "prod" ]; then
+	rake db:create RAILS_ENV=production
+	rake db:migrate RAILS_ENV=production
+	rake fedena:plugins:install_all
+	script/server -d
+fi
+
+if [ "$mode" == "deploy" ]; then
 	bundle install
 	rake db:create
 	bundle exec rake fedena:plugins:install_all
