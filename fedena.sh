@@ -34,8 +34,9 @@ if [ "$mode" == "dev" ]; then
 fi
 
 if [ "$mode" == "prod" ]; then
-	rake db:create RAILS_ENV=production
-	rake db:migrate RAILS_ENV=production
+	export RAILS_ENV=production
+	rake db:create
+	rake db:migrate
 	rake fedena:plugins:install_all
 	script/server -d
 fi
