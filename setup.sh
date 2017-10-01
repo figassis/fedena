@@ -1,7 +1,13 @@
 #!/bin/bash
-if [ $# -ne 1 ]; then
-    echo Usage: $0 domain
+if [ $# -lt 1 ]; then
+    echo Usage: $0 domain [prod]
     exit 1
+fi
+
+mode=development
+
+if [ $# -eq 2 ]; then
+    mode=production
 fi
 
 domain=$1
@@ -78,6 +84,9 @@ cp config/nginx.conf /etc/nginx/nginx.conf
 cp config/$domain /etc/nginx/sites-available/$domain
 ln -s /etc/nginx/sites-available/$domain /etc/nginx/sites-enabled/$domain
 rm /etc/nginx/sites-enabled/default
+
+mydir=`pwd`
+su - $SUDO_USER -c "cd $mydir && ./fedena.sh $mode"
 
 passenger-config --make-locations-ini > locations.ini
 chmod 644 locations.ini && sudo chown root:root locations.ini
