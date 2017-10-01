@@ -40,10 +40,3 @@ if [ "$mode" == "prod" ]; then
 	rake fedena:plugins:install_all
 	script/server -d
 fi
-
-if [ "$mode" == "deploy" ]; then
-	export RAILS_ENV=production
-	bundle install
-	rake db:create
-	bundle exec rake fedena:plugins:install_all
-fi
