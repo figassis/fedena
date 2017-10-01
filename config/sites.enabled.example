@@ -1,17 +1,26 @@
 server {
-    listen       80;
+    listen 80 default_server;
+    listen [::]:80 default_server;
     server_name  domain;
-    location / {
-    	root   installdir/public;
-     	passenger_enabled on;
-    }
+
+    passenger_enabled on;
+    passenger_app_env development;
+
+    root   /home/app/development/public;
+
     error_page   500 502 503 504  /50x.html;
+
     location = /50x.html {
         root   html;
     }
-  	error_page 413 /413.html;
-   	location = /413.html{
+
+    error_page 413 /413.html;
+
+    location = /413.html{
        root   html;
        allow all;
     }
+
+    access_log  /var/log/nginx/domain.access.log;
+    error_log  /var/log/nginx/domain.error.log;
  }

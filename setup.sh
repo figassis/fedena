@@ -51,6 +51,9 @@ cp config/backup.ini.example config/backup.ini
 cp config/database.yml.example config/database.yml
 cp config/company_details.yml.example config/company_details.yml
 cp config/tasks.example config/tasks
+cp config/sites.enabled config/$domain
+cp config/passenger.conf.example config/passenger.conf
+cp config/nginx.conf.example config/nginx.conf
 
 sed -i $tempfile 's|DB_PASS|'$mysql_password'|g' config/database.yml
 sed -i $tempfile 's|mysql_password|'$mysql_password'|g' config/backup.ini
@@ -59,6 +62,7 @@ sed -i $tempfile 's|backup_user|'$SUDO_USER'|g' config/backup.ini
 sed -i $tempfile 's|admin_email|webmaster@nellcorp.com|g' config/backup.ini
 sed -i $tempfile 's|fedena_directory|'`pwd`'|g' config/backup.ini
 sed -i $tempfile 's|domain|'$domain'|g' config/tasks
+sed -i $tempfile 's|domain|'$domain'|g' config/$domain
 sed -i $tempfile 's|backup_user|'$SUDO_USER'|g' config/tasks
 cp config/tasks /etc/cron.d/maintenance
 
@@ -67,3 +71,14 @@ echo $gpg_pass > config/gpg_pass.txt
 
 #Open Firewall
 sudo ufw allow 3000
+
+#Setup Passenger and Nginx
+cp config/nginx.conf /etc/nginx/nginx.conf
+#cp config/passenger.conf /etc/nginx/passenger.conf
+cp config/$domain /etc/nginx/sites-available/$domain
+ln -s /etc/nginx/sites-available/$domain /etc/nginx/sites-enabled/$domain
+rm /etc/nginx/sites-enabled/default
+
+passenger-config --make-locations-ini > locations.ini
+chmod 644 locations.ini && sudo chown root:root locations.ini
+sudo mv locations.ini /usr/lib/ruby/vendor_ruby/phusion_passenger/locations.ini

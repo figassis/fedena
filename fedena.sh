@@ -22,6 +22,7 @@ gem install rush -v 0.6.8
 gem install mysql
 gem install rmagick
 gem install mongrel
+gem install passenger
 gem update --system 1.3.7
 
 #Install Fedena
