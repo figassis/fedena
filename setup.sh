@@ -57,7 +57,7 @@ cp config/backup.ini.example config/backup.ini
 cp config/database.yml.example config/database.yml
 cp config/company_details.yml.example config/company_details.yml
 cp config/tasks.example config/tasks
-cp config/sites.enabled config/$domain
+cp config/sites.enabled.example config/$domain
 cp config/passenger.conf.example config/passenger.conf
 cp config/nginx.conf.example config/nginx.conf
 
@@ -77,13 +77,14 @@ echo $gpg_pass > config/gpg_pass.txt
 
 #Open Firewall
 sudo ufw allow 3000
+exit
 
 #Setup Passenger and Nginx
-cp config/nginx.conf /etc/nginx/nginx.conf
-#cp config/passenger.conf /etc/nginx/passenger.conf
-cp config/$domain /etc/nginx/sites-available/$domain
-ln -s /etc/nginx/sites-available/$domain /etc/nginx/sites-enabled/$domain
-rm /etc/nginx/sites-enabled/default
+sudo cp config/nginx.conf /etc/nginx/nginx.conf
+sudo cp config/passenger.conf /etc/nginx/passenger.conf
+sudo cp config/$domain /etc/nginx/sites-available/$domain
+sudo ln -s /etc/nginx/sites-available/$domain /etc/nginx/sites-enabled/$domain
+sudo rm /etc/nginx/sites-enabled/default
 
 mydir=`pwd`
 su - $SUDO_USER -c "cd $mydir && ./fedena.sh $mode"
@@ -91,3 +92,4 @@ su - $SUDO_USER -c "cd $mydir && ./fedena.sh $mode"
 passenger-config --make-locations-ini > locations.ini
 chmod 644 locations.ini && sudo chown root:root locations.ini
 sudo mv locations.ini /usr/lib/ruby/vendor_ruby/phusion_passenger/locations.ini
+sudo service nginx restart
