@@ -22,7 +22,7 @@ gem install rush -v 0.6.8
 gem install mysql
 gem install rmagick
 gem install mongrel
-gem install --no-ri --no-rdoc --verbose passenger
+gem install --no-ri --no-rdoc --verbose passenger -v 4.0.59
 gem update --system 1.3.7
 
 #Install Fedena
@@ -31,4 +31,4 @@ export RAILS_ENV=$mode
 rake db:create
 rake db:migrate
 rake fedena:plugins:install_all
-script/server -d
+#script/server -d
