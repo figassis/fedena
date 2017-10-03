@@ -1,10 +1,4 @@
 #!/bin/bash
-mode=development
-
-if [ $# -eq 1 ]; then
-    mode=production
-fi
-
 gpg2 --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
 curl -L https://get.rvm.io | bash -s stable
 source /home/$USER/.rvm/scripts/rvm
@@ -26,9 +20,12 @@ gem install --no-ri --no-rdoc --verbose passenger -v 4.0.59
 gem update --system 1.3.7
 
 #Install Fedena
-export RAILS_ENV=$mode
-
+export RAILS_ENV=development
 rake db:create
 rake db:migrate
 rake fedena:plugins:install_all
-#script/server -d
+
+export RAILS_ENV=production
+rake db:create
+rake db:migrate
+rake fedena:plugins:install_all

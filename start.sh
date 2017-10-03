@@ -1,8 +1,8 @@
 #!/bin/bash
-mode=development
-
-if [ $# -eq 1 ]; then
-    mode=production
+if [[ "$1" =~ ^(development|production)$ ]]; then
+    mode=$1
+else
+    mode=development
 fi
 
 source /home/$USER/.rvm/scripts/rvm
