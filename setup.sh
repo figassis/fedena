@@ -67,4 +67,4 @@ sudo ln -s /opt/nginx/sites-available/$domain /opt/nginx/sites-enabled/$domain
 sudo cp config/nginx.conf /etc/init.d/nginx
 sudo /usr/sbin/update-rc.d -f nginx defaults
 
-sudo ./start.sh production
+su - $SUDO_USER -c "cd $current && ./start.sh production"
