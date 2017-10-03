@@ -82,7 +82,7 @@ su - $SUDO_USER -c "cd $mydir && ./fedena.sh $mode"
 exit
 
 source /home/$SUDO_USER/.rvm/scripts/rvm
-rvmsudo `which passenger-install-nginx-module` --auto --auto-download --prefix=/opt/nginx
+rvmsudo `which ruby` `which passenger-install-nginx-module` --auto --auto-download --prefix=/opt/nginx
 
 #Setup Passenger and Nginx
 sudo sed -i '/#gzip  on;/a    include /opt/nginx/sites-enabled/*;' /opt/nginx/conf/nginx.conf
