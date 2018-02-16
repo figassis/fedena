@@ -28,6 +28,9 @@ sudo debconf-set-selections <<< "mysql-server mysql-server/root_password passwor
 sudo debconf-set-selections <<< "mysql-server mysql-server/root_password_again password $mysql_password"
 sudo apt-get install -y libmysqlclient-dev mysql-server
 mysql -u root -p$mysql_password -e "SET global sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));"
+echo '[mysqld]' | sudo tee --append /etc/mysql/my.cnf > /dev/null
+echo 'sql_mode=IGNORE_SPACE,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' | sudo tee --append /etc/mysql/my.cnf > /dev/null
+sudo service mysql restart
 
 #Modify config files
 cp config/backup.ini.example config/backup.ini
